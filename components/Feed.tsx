@@ -31,9 +31,15 @@ class Feed extends React.Component<any, FeedState> {
         comments: []
       },
       {
-        title: "How To Traverse A Binary Tree?",
-        description: "Text 1",
-        snippet: `<p>CSS is the perfect language to use for traversing binary trees.</p>`,
+        title: "Convolutional Neural Networks with Keras",
+        description: `<ul>
+        <li>Dense Input Layer</li>
+        <li>8 Convolutional Layers with Dropout</li>
+        </ul>`,
+        snippet: `<ol>
+        <li>Dense Input Layer</li>
+        <li>8 Convolutional Layers with Dropout</li>
+        </ol>`,
         comments: []
       },
     ],

@@ -39,7 +39,7 @@ export default function BottomTabNavigator() {
         }}
       />
       <BottomTab.Screen
-        name="Add Snippet"
+        name="AddSnippet"
         component={AddSnippet}
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
