@@ -8,8 +8,30 @@ import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
 import { createStore, applyMiddleware } from 'redux';
 import { authReducer } from './reducers/authReducer';
-import { ReduxStateInterface } from './reducers/authReducer';
 import thunk from 'redux-thunk';
+import { AppRegistry } from 'react-native';
+import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink  } from '@apollo/client'
+import { setContext } from '@apollo/client/link/context';
+import * as SecureStore from 'expo-secure-store';
+
+const httpLink = createHttpLink({
+  uri: 'http://127.0.0.1:4000/graphql'
+});
+
+const authLink = setContext((_, { headers }) => {
+  const token = SecureStore.getItemAsync('accessToken');
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : "",
+    }
+  }
+})
+
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache()
+})
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
@@ -22,14 +44,18 @@ export default function App() {
     return null;
   } else {
     return (
-      <ReduxProvider store={store}>
-        <PaperProvider>
-          <SafeAreaProvider>
-            <Navigation colorScheme={colorScheme} />
-            <StatusBar />
-          </SafeAreaProvider>
-        </PaperProvider>
-      </ReduxProvider>
+      <ApolloProvider client={client}>
+        <ReduxProvider store={store}>
+          <PaperProvider>
+            <SafeAreaProvider>
+              <Navigation colorScheme={colorScheme} />
+              <StatusBar />
+            </SafeAreaProvider>
+          </PaperProvider>
+        </ReduxProvider>
+      </ApolloProvider>
     );
   }
 }
+
+AppRegistry.registerComponent('CodeSnippets', () => App);

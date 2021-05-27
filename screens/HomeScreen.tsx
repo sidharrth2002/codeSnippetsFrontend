@@ -1,3 +1,4 @@
+import { useQuery } from '@apollo/client';
 import axios from 'axios';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
@@ -16,13 +17,22 @@ interface QuoteInterface {
   author: string
 }
 
+interface Snippets {
+  title: string;
+  description: string;
+  snippet: string;
+  comments: string[];
+}
+
+interface SnippetsQueryInput {
+
+}
+
 export default function TabOneScreen() {
   const [quote, setQuote] = useState<QuoteInterface>({
     quote: '',
     author: ''
   });
-  const dispatch = useDispatch();
-  const isAuthenticated = useSelector((state: ReduxStateInterface) => state.isAuthenticated);
 
   useEffect(() => {
     axios.get('https://zenquotes.io/api/random')

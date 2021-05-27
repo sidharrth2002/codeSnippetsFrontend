@@ -7,7 +7,7 @@ export interface ReduxStateInterface {
 }
 
 const INITIAL_STATE:ReduxStateInterface = {
-    isAuthenticated: true,
+    isAuthenticated: false,
     user: null,
     accessToken: null
 }
