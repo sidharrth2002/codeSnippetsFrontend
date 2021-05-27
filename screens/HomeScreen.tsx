@@ -1,4 +1,4 @@
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { useNavigation } from '@react-navigation/core';
 import axios from 'axios';
 import * as React from 'react';

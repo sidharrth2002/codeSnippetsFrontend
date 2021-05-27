@@ -28,3 +28,14 @@ query getSnippets {
   }
 }
 `
+
+export const GET_SNIPPETS_BY_KEYWORD = gql`
+query snippetsByKeyword($keyword: String!) {
+    snippetsByKeyword(keyword: $keyword) {
+      id
+      title
+      description
+      snippet
+    }
+  }
+`
