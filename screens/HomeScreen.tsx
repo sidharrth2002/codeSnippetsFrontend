@@ -12,41 +12,9 @@ import Feed from '../components/Feed';
 import { Text as DefaultText } from 'react-native'; 
 import { Text, View } from '../components/Themed';
 import { UserInterface } from '../reducers/authReducer';
+import { QuoteInterface, Snippets, SnippetsList, SnippetsQueryInput } from '../types';
+import { GET_SNIPPETS } from '../graphQLQueries'
 import HTML from 'react-native-render-html';
-
-interface QuoteInterface {
-  quote: string,
-  author: string
-}
-
-const GET_SNIPPETS = gql`
-query getSnippets {
-  snippetsForUser(userId: 1) {
-    id
-    title
-    description
-    snippet
-    comments {
-      user
-      body
-    }
-  }
-}
-`
-export interface Snippets {
-  title: string;
-  description: string;
-  snippet: string;
-  comments: string[];
-}
-
-interface SnippetsList {
-  snippetsForUser: Snippets[];
-}
-
-interface SnippetsQueryInput {
-  userId: number;
-}
 
 export default function TabOneScreen() {
   const [quote, setQuote] = useState<QuoteInterface>({

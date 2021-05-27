@@ -1,11 +1,7 @@
-import React, { useRef } from 'react'
-import { View, ImageBackgroundComponent, ImageBackground, StyleSheet, TouchableHighlight } from 'react-native'
-import { Card, Paragraph, Title, Button, Avatar } from 'react-native-paper'
-import { codeBackground } from '../exports';
-import { Text, ScrollView, useWindowDimensions } from "react-native";
+import React from 'react'
+import { View, StyleSheet, TouchableHighlight } from 'react-native'
+import { Text } from "react-native";
 import HTML from "react-native-render-html";
-import useColorScheme from '../hooks/useColorScheme';
-import { Modalize } from 'react-native-modalize';
 interface FeedCardProps {
     title: string,
     description: string
@@ -15,12 +11,6 @@ interface FeedCardProps {
 }
 
 const FeedCard = ({ title, description, snippet, comments, onPress }: FeedCardProps): JSX.Element => {
-    const colorMode:string = useColorScheme()
-    const contentWidth:number = useWindowDimensions().width;
-    const htmlContent:string = `
-        <p>You can start writing your algorithm here.</p>
-    `;
-
     return (
         <React.Fragment>
             <TouchableHighlight onPress={() => {

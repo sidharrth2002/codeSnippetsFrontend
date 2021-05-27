@@ -1,12 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider as PaperProvider } from 'react-native-paper';
-import { Provider as ReduxProvider, useDispatch, useSelector, TypedUseSelectorHook} from 'react-redux'
+import { Provider as ReduxProvider } from 'react-redux'
 import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
-import { createStore, applyMiddleware, combineReducers } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import { authReducer } from './reducers/authReducer';
 import thunk from 'redux-thunk';
 import { AppRegistry } from 'react-native';

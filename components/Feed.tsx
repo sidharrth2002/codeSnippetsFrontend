@@ -1,32 +1,8 @@
-import React, { useRef } from 'react'
+import React from 'react'
 import { View } from 'react-native'
-import { Modalize } from 'react-native-modalize';
 import Carousel from 'react-native-snap-carousel'
-import { Snippets } from '../screens/HomeScreen';
 import FeedCard from './FeedCard'
-import { Text } from './Themed';
-interface ItemProps {
-  title: string;
-  description: string;
-  snippet: string;
-  comments: string[]
-}
-
-interface FeedState {
-  activeIndex: number;
-  carouselItems: ItemProps[];
-}
-
-interface QuoteInterface {
-  quote: string,
-  author: string
-}
-
-interface FeedProps {
-  snippets: Snippets[],
-  setModalToShow: Function
-}
-
+import { ItemProps, FeedState, FeedProps } from '../types';
 class Feed extends React.Component<FeedProps, FeedState> {
   ref = React.createRef<any>();
 
@@ -39,9 +15,6 @@ class Feed extends React.Component<FeedProps, FeedState> {
     return (
       <View>
         <FeedCard title={item.title} description={item.description} snippet={item.snippet} comments={item.comments} onPress={this.props.setModalToShow}/>
-          <Modalize ref={this.modalizeRef}>
-          <Text>{item.description}</Text>
-        </Modalize>
       </View>
     );
   };
