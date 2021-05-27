@@ -6,7 +6,7 @@ import { Provider as ReduxProvider, useDispatch, useSelector, TypedUseSelectorHo
 import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { authReducer } from './reducers/authReducer';
 import thunk from 'redux-thunk';
 import { AppRegistry } from 'react-native';
@@ -38,22 +38,24 @@ export default function App() {
   const colorScheme = useColorScheme();
 
   const middleware = applyMiddleware(thunk)
+
   const store = createStore(authReducer, middleware);
 
   if (!isLoadingComplete) {
     return null;
   } else {
     return (
+      <ReduxProvider store={store}>
+
       <ApolloProvider client={client}>
-        <ReduxProvider store={store}>
           <PaperProvider>
             <SafeAreaProvider>
               <Navigation colorScheme={colorScheme} />
               <StatusBar />
             </SafeAreaProvider>
           </PaperProvider>
+          </ApolloProvider>
         </ReduxProvider>
-      </ApolloProvider>
     );
   }
 }

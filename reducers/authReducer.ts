@@ -2,37 +2,49 @@ import { combineReducers } from 'redux';
 
 export interface ReduxStateInterface {
     isAuthenticated: boolean,
-    user: object | null,
+    user: UserInterface | null,
     accessToken: string | null
 }
 
-const INITIAL_STATE:ReduxStateInterface = {
+export const INITIAL_STATE:ReduxStateInterface = {
     isAuthenticated: false,
     user: null,
     accessToken: null
 }
 
 export interface UserInterface {
+    __typename: string,
     name: string,
     email: string,
     accessToken: string
 }
 
-export interface LoginActionInterface {
+export interface ActionInterface {
     type: string,
     payload: UserInterface
 }
 
-export const authReducer = (state = INITIAL_STATE, action:LoginActionInterface) => {
+export const authReducer = (state = INITIAL_STATE, action: ActionInterface): ReduxStateInterface => {
+    let newState = {...state}
+    console.log('Before switch case');
+    console.log(newState);
     switch(action.type) {
         case 'LOGIN':
-            state.isAuthenticated = true;
-            state.user = action.payload;
-            state.accessToken = action.payload.accessToken;
+            console.log('Inside switch case');
+            console.log(action);
+            newState.isAuthenticated = true;
+            newState.user = action.payload;
+            newState.accessToken = action.payload.accessToken;
+            console.log('After switch case');
+            console.log(newState);
+            return newState;
         case 'LOGOUT':
-            state.isAuthenticated = false;
-            state.user = null;
+            newState = {...state}
+            newState.isAuthenticated = false;
+            newState.user = null;
+            return newState;
         default:
-            return state;
+            console.log('We reach here');
+            return newState;
     }
 }

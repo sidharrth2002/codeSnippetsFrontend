@@ -15,6 +15,7 @@ interface LoginInput {
 }
 
 interface UserData {
+  id: number,
   name: string,
   email: string,
   accessToken: string
@@ -26,6 +27,7 @@ const LOGIN = gql`
       email: $email,
       password: $password
     ) {
+      id
       name
       email
       accessToken
@@ -73,7 +75,7 @@ export default function LoginScreen({
           console.log(data.login);
           dispatch({
             type: 'LOGIN',
-            payload: data
+            payload: data.login
           })
           SecureStore.setItemAsync('accessToken', data.accessToken);
           setRedirect(true);

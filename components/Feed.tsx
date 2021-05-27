@@ -1,12 +1,10 @@
-import React from 'react'
-import { View, Text, TouchableOpacityComponent } from 'react-native'
-import { TouchableHighlight } from 'react-native-gesture-handler';
-import { Title } from 'react-native-paper';
-import HTML from 'react-native-render-html';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import React, { useRef } from 'react'
+import { View } from 'react-native'
+import { Modalize } from 'react-native-modalize';
 import Carousel from 'react-native-snap-carousel'
+import { Snippets } from '../screens/HomeScreen';
 import FeedCard from './FeedCard'
-
+import { Text } from './Themed';
 interface ItemProps {
   title: string;
   description: string;
@@ -19,35 +17,32 @@ interface FeedState {
   carouselItems: ItemProps[];
 }
 
-class Feed extends React.Component<any, FeedState> {
+interface QuoteInterface {
+  quote: string,
+  author: string
+}
+
+interface FeedProps {
+  snippets: Snippets[],
+  setModalToShow: Function
+}
+
+class Feed extends React.Component<FeedProps, FeedState> {
   ref = React.createRef<any>();
+
   state = {
     activeIndex: 0,
-    carouselItems: [
-      {
-        title: "How To Invert A Binary Tree?",
-        description: "Flip the left and the right using recursion.",
-        snippet: `<p>CSS is the perfect language to use for inverting binary trees.</p>`,
-        comments: []
-      },
-      {
-        title: "Convolutional Neural Networks with Keras",
-        description: `<ul>
-        <li>Dense Input Layer</li>
-        <li>8 Convolutional Layers with Dropout</li>
-        </ul>`,
-        snippet: `<ol>
-        <li>Dense Input Layer</li>
-        <li>8 Convolutional Layers with Dropout</li>
-        </ol>`,
-        comments: []
-      },
-    ],
+    carouselItems: this.props.snippets
   };
 
   renderItem = ({ item, index }: { item: ItemProps; index: number }) => {
     return (
-        <FeedCard title={item.title} description={item.description} snippet={item.snippet} comments={item.comments} />
+      <View>
+        <FeedCard title={item.title} description={item.description} snippet={item.snippet} comments={item.comments} onPress={this.props.setModalToShow}/>
+          <Modalize ref={this.modalizeRef}>
+          <Text>{item.description}</Text>
+        </Modalize>
+      </View>
     );
   };
 

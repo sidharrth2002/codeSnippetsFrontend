@@ -7,6 +7,7 @@ import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
 import { ColorSchemeName } from 'react-native';
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
 import { ReduxStateInterface } from '../reducers/authReducer';
 import LoginScreen from '../screens/LoginScreen';
