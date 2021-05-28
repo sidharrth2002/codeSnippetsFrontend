@@ -23,6 +23,13 @@ export type TabTwoParamList = {
   TabTwoScreen: undefined;
 };
 
+export interface UserInterface {
+  __typename: string,
+  name: string,
+  email: string,
+  accessToken: string
+}
+
 export interface LoginInput {
   email: string;
   password: string;  
@@ -41,6 +48,7 @@ export interface QuoteInterface {
 }
 
 export interface Snippets {
+  id: number;
   title: string;
   description: string;
   snippet: string;
@@ -49,6 +57,10 @@ export interface Snippets {
 
 export interface SnippetsList {
   snippetsForUser: Snippets[];
+}
+
+export interface SnippetsSearchResults {
+  snippetsByKeyword: Snippets[];
 }
 
 export interface SnippetsQueryInput {
@@ -75,4 +87,11 @@ export interface QuoteInterface {
 export interface FeedProps {
   snippets: Snippets[],
   setModalToShow: Function
+}
+
+export interface AddSnippetData {
+  title: string;
+  description: string;
+  snippet: string;
+  userId: string;
 }

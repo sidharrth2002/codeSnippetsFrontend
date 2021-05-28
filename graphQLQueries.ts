@@ -39,3 +39,18 @@ query snippetsByKeyword($keyword: String!) {
     }
   }
 `
+
+export const ADD_SNIPPET = gql`
+  mutation createSnippet($title: String!, $description: String!, $snippet: String!, $userId: ID!) {
+    createSnippet(
+      title: $title,
+      description: $description,
+      snippet: $snippet,
+      userId: $userId
+    ) {
+      title
+      description
+      snippet
+    }
+  }
+`

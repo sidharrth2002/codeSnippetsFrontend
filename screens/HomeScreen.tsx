@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Modalize } from 'react-native-modalize';
-import { Title, Paragraph, Subheading } from 'react-native-paper';
+import { Title, Paragraph, Subheading, Button } from 'react-native-paper';
 import { useSelector } from 'react-redux';
 import Feed from '../components/Feed';
 import { Text as DefaultText } from 'react-native'; 
@@ -58,13 +58,19 @@ export default function TabOneScreen() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.headingBox}>
-        <Text style={styles.title}>Welcome {user.name}!</Text>
-        <View style={styles.quoteBox}>
-            <Paragraph style={styles.quote}>{quote.quote}</Paragraph>
-            <Paragraph>- {quote.author}</Paragraph>
-            <Subheading>Here are a few code snippets for you to try!</Subheading>
+      <View>
+          <Button style={styles.logoutButton} mode="contained" onPress={() => console.log('Pressed')}>
+            Logout
+          </Button>
         </View>
+      <View style={styles.headingBox}>
+        
+          <Text style={styles.title}>Welcome {user.name}!</Text>
+          <View style={styles.quoteBox}>
+              <Paragraph style={styles.quote}>{quote.quote}</Paragraph>
+              <Paragraph>- {quote.author}</Paragraph>
+              <Subheading>Here are a few code snippets for you to try!</Subheading>
+          </View>
       </View>
 
       {loading ? 
@@ -137,5 +143,11 @@ const styles = StyleSheet.create({
     minHeight: 500,
     padding: 20,
     borderRadius: 20
+  },
+  logoutButton: {
+    position: 'absolute',
+    top: 50,
+    right: 20,
+    backgroundColor: 'white',
   }
 });

@@ -39,6 +39,13 @@ export default function LoginScreen({
       }
     );
 
+    useEffect(() => {
+      if(error !== undefined) {
+        console.log(JSON.stringify(error, null, 2));
+      }
+    }, [error])
+
+
     if(error) {
       console.log(error);
     }
