@@ -6,7 +6,7 @@ import { Provider as ReduxProvider } from 'react-redux'
 import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { authReducer } from './reducers/authReducer';
 import thunk from 'redux-thunk';
 import { AppRegistry } from 'react-native';
@@ -55,7 +55,7 @@ export default function App() {
             </SafeAreaProvider>
           </PaperProvider>
           </ApolloProvider>
-        </ReduxProvider>
+      </ReduxProvider>
     );
   }
 }

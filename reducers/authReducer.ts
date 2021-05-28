@@ -1,5 +1,3 @@
-import { combineReducers } from 'redux';
-
 export interface ReduxStateInterface {
     isAuthenticated: boolean,
     user: UserInterface | null,

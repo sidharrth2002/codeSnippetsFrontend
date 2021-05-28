@@ -1,12 +1,13 @@
 import { useLazyQuery } from '@apollo/client';
 import React, { useEffect, useState } from 'react';
 import { Dimensions, StyleSheet } from 'react-native';
-import { Searchbar } from 'react-native-paper';
+import { Checkbox, Searchbar } from 'react-native-paper';
 import { Text, View } from '../components/Themed';
 import { GET_SNIPPETS_BY_KEYWORD } from '../graphQLQueries';
 import { Card, Title, Paragraph } from 'react-native-paper';
 import { Snippets, SnippetsSearchResults } from '../types';
 import HTML from 'react-native-render-html';
+import { ScrollView } from 'react-native-gesture-handler';
 
 interface loadResultsInput {
   keyword: string;
@@ -15,6 +16,7 @@ interface loadResultsInput {
 export default function TabTwoScreen() {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [searchResults, setSearchResults] = useState<Snippets[]>([]);
+  const [sortAlph, setSortAlph] = useState<boolean>(false);
   const onChangeSearch = (query: React.SetStateAction<string>) => setSearchQuery(query);
   
   const [loadResults, { called, loading, data }] = useLazyQuery<SnippetsSearchResults, loadResultsInput>(
@@ -26,6 +28,10 @@ export default function TabTwoScreen() {
     if(data?.snippetsByKeyword == null || data?.snippetsByKeyword.length === 0) {
       setSearchResults([])
     } else if(data?.snippetsByKeyword.length > 0) {
+      console.log(data.snippetsByKeyword);
+      // if(sortAlph) {
+      //   data.snippetsByKeyword.sort((a, b) => a.title < b.title ? 1 : -1);        
+      // }
       setSearchResults(data.snippetsByKeyword);
     }
   }, [data])
@@ -53,12 +59,24 @@ export default function TabTwoScreen() {
             }
           }}
           value={searchQuery}
-      />
-      <View>
+      />    
+
+    <View>
+      <View style={styles.checkboxBox}>
+        <Checkbox
+          status={sortAlph ? 'checked' : 'unchecked'}
+          onPress={() => {
+            setSortAlph(!sortAlph);
+          }}
+        />  
+        <Text>Sort Alphabetically</Text>
+      </View>
+      <ScrollView>
         { (called && loading) ? 
           <Text>Fetching from the server</Text>  
           :
             searchResults.map((snippet) => {
+              console.log(snippet.id);
               return (
                 <View key={snippet.id} style={styles.cardParent}>
                   <Card style={styles.card}>
@@ -77,6 +95,7 @@ export default function TabTwoScreen() {
             } 
           )
         } 
+        </ScrollView>
       </View>
     </View>
   );
@@ -97,7 +116,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   searchBar: {
-    borderRadius: 30
+    borderRadius: 30,
+    marginBottom: 10
   },
   card: {
     marginTop: 20,
@@ -113,5 +133,11 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 20,
     marginTop: 20
+  },
+  checkboxBox: {
+    height: 100,
+    alignItems: 'center',
+    flexDirection: 'row'
+    // marginTop: 50,
   }
 });
