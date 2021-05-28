@@ -14,6 +14,7 @@ export const INITIAL_STATE:ReduxStateInterface = {
 
 export interface UserInterface {
     __typename: string,
+    id: number,
     name: string,
     email: string,
     accessToken: string

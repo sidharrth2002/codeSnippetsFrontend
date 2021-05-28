@@ -7,7 +7,7 @@ import { StyleSheet } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Modalize } from 'react-native-modalize';
 import { Title, Paragraph, Subheading, Button } from 'react-native-paper';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Feed from '../components/Feed';
 import { Text as DefaultText } from 'react-native'; 
 import { Text, View } from '../components/Themed';
@@ -24,6 +24,7 @@ export default function TabOneScreen() {
   const [modalContent, setModalContent] = useState<Snippets>();
   const user = useSelector((state: UserInterface) => state.user);
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   const { loading, data, refetch } = useQuery<SnippetsList, SnippetsQueryInput>(
     GET_SNIPPETS, {
@@ -51,7 +52,13 @@ export default function TabOneScreen() {
   return (
     <View style={styles.container}>
       <View>
-          <Button style={styles.logoutButton} mode="contained" onPress={() => console.log('Logout')}>
+          <Button style={styles.logoutButton} mode="contained" onPress={() => {
+            navigation.navigate('Login')
+            // dispatch({
+            //   type: 'LOGOUT',
+            //   payload: {}
+            // })
+          }}>
             Logout
           </Button>
         </View>

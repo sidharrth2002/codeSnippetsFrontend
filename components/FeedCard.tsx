@@ -2,6 +2,8 @@ import React from 'react'
 import { View, StyleSheet, TouchableHighlight } from 'react-native'
 import { Text } from "react-native";
 import HTML from "react-native-render-html";
+import { pure } from 'recompose';
+
 interface FeedCardProps {
     title: string,
     description: string
@@ -60,4 +62,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default FeedCard
+export default pure(FeedCard);
