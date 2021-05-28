@@ -37,10 +37,6 @@ export default function TabOneScreen() {
     setModalContent(card);
     modalizeRef.current?.open();
   }
-  
-  useEffect(() => {
-    console.log(data)
-  }, [data])
 
   useEffect(() => {
     axios.get('https://zenquotes.io/api/random')
@@ -52,14 +48,10 @@ export default function TabOneScreen() {
     })
   }, [])
 
-  if(data) {
-    console.log(data);
-  }
-
   return (
     <View style={styles.container}>
       <View>
-          <Button style={styles.logoutButton} mode="contained" onPress={() => console.log('Pressed')}>
+          <Button style={styles.logoutButton} mode="contained" onPress={() => console.log('Logout')}>
             Logout
           </Button>
         </View>

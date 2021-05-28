@@ -46,8 +46,6 @@ const AddSnippet = () => {
 
     const handleSubmit = () => {
         if(title.length !== 0 && description.length !== 0 && editorHTML.length !== 0) {
-            console.log('Submit clicked');
-            console.log(title, description, editorHTML);
             addSnippet({
                 variables: { title: title, description: description, snippet: editorHTML, userId: "1" }
             });

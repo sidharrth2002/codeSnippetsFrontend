@@ -26,7 +26,6 @@ export default function TabTwoScreen() {
     if(data?.snippetsByKeyword == null || data?.snippetsByKeyword.length === 0) {
       setSearchResults([])
     } else if(data?.snippetsByKeyword.length > 0) {
-      console.log(data.snippetsByKeyword);
       setSearchResults(data.snippetsByKeyword);
     }
   }, [data])
@@ -44,7 +43,6 @@ export default function TabTwoScreen() {
           style={styles.searchBar}
           placeholder="Search"
           onChangeText={(text) => {
-            console.log(text);
             setSearchQuery(text);  
             if(text.length > 0) {
               loadResults({

@@ -26,17 +26,11 @@ export interface ActionInterface {
 
 export const authReducer = (state = INITIAL_STATE, action: ActionInterface): ReduxStateInterface => {
     let newState = {...state}
-    console.log('Before switch case');
-    console.log(newState);
     switch(action.type) {
         case 'LOGIN':
-            console.log('Inside switch case');
-            console.log(action);
             newState.isAuthenticated = true;
             newState.user = action.payload;
             newState.accessToken = action.payload.accessToken;
-            console.log('After switch case');
-            console.log(newState);
             return newState;
         case 'LOGOUT':
             newState = {...state}
@@ -44,7 +38,6 @@ export const authReducer = (state = INITIAL_STATE, action: ActionInterface): Red
             newState.user = null;
             return newState;
         default:
-            console.log('We reach here');
             return newState;
     }
 }

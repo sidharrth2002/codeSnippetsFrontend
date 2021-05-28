@@ -14,7 +14,6 @@ const FeedCard = ({ title, description, snippet, comments, onPress }: FeedCardPr
     return (
         <React.Fragment>
             <TouchableHighlight onPress={() => {
-                console.log('I am clicked');
                 onPress({
                     title: title,
                     description: description,
