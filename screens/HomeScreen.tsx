@@ -3,7 +3,7 @@ import { useNavigation } from '@react-navigation/core';
 import axios from 'axios';
 import * as React from 'react';
 import { useEffect, useRef, useState } from 'react';
-import { Alert, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Modalize } from 'react-native-modalize';
 import { Title, Paragraph, Subheading, Button } from 'react-native-paper';
@@ -49,7 +49,6 @@ export default function TabOneScreen() {
       console.log('Screen is focused');
       refetch();
       console.log('after');
-      Alert.alert('Refreshed');
       // The screen is focused
       // Call any action
     });
@@ -89,7 +88,7 @@ export default function TabOneScreen() {
             //   payload: {}
             // })
           }}>
-            Logout
+            <Text>Logout</Text>
           </Button>
         </View>
       <View style={styles.headingBox}>
@@ -177,6 +176,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 50,
     right: 20,
-    backgroundColor: 'white',
+    color: 'black'
   }
 });
