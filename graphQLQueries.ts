@@ -54,3 +54,11 @@ export const ADD_SNIPPET = gql`
     }
   }
 `
+
+export const DELETE_SNIPPET = gql`
+  mutation deleteSnippet($id: ID!) {
+    deleteSnippet(
+      id: $id
+    )
+  }
+`

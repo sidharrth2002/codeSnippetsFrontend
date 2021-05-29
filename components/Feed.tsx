@@ -14,7 +14,7 @@ class Feed extends React.Component<FeedProps, FeedState> {
   renderItem = ({ item, index }: { item: ItemProps; index: number }) => {
     return (
       <View>
-        <FeedCard title={item.title} description={item.description} snippet={item.snippet} comments={item.comments} onPress={this.props.setModalToShow}/>
+        <FeedCard id={item.id} title={item.title} description={item.description} snippet={item.snippet} comments={item.comments} onPress={this.props.setModalToShow}/>
       </View>
     );
   };

@@ -1,9 +1,9 @@
-import { useQuery } from '@apollo/client';
+import { NetworkStatus, useLazyQuery, useQuery } from '@apollo/client';
 import { useNavigation } from '@react-navigation/core';
 import axios from 'axios';
 import * as React from 'react';
 import { useEffect, useRef, useState } from 'react';
-import { StyleSheet } from 'react-native';
+import { Alert, StyleSheet } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Modalize } from 'react-native-modalize';
 import { Title, Paragraph, Subheading, Button } from 'react-native-paper';
@@ -12,8 +12,8 @@ import Feed from '../components/Feed';
 import { Text as DefaultText } from 'react-native'; 
 import { Text, View } from '../components/Themed';
 import { UserInterface } from '../reducers/authReducer';
-import { QuoteInterface, Snippets, SnippetsList, SnippetsQueryInput } from '../types';
-import { GET_SNIPPETS } from '../graphQLQueries'
+import { DeleteSnippetData, QuoteInterface, Snippets, SnippetsList, SnippetsQueryInput } from '../types';
+import { DELETE_SNIPPET, GET_SNIPPETS } from '../graphQLQueries'
 import HTML from 'react-native-render-html';
 
 export default function TabOneScreen() {
@@ -23,14 +23,40 @@ export default function TabOneScreen() {
   });
   const [modalContent, setModalContent] = useState<Snippets>();
   const user = useSelector((state: UserInterface) => state.user);
+  const [refresh, setRefresh] = useState(false);
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  const { loading, data, refetch } = useQuery<SnippetsList, SnippetsQueryInput>(
+  const { loading, error, data, refetch, networkStatus } = useQuery<SnippetsList, SnippetsQueryInput>(
     GET_SNIPPETS, {
       variables: { userId: user.id },
+      notifyOnNetworkStatusChange: true,
+      onCompleted: data => {
+        console.log('Fetch Completed');
+        console.log('data', data);
+      },
     }
   )
+
+  useEffect(() => {
+    if(!loading && data) {
+      console.log(data);
+    }
+  }, [loading, data])
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      console.log('Screen is focused');
+      refetch();
+      console.log('after');
+      Alert.alert('Refreshed');
+      // The screen is focused
+      // Call any action
+    });
+
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe;
+  }, [navigation]);
 
   const modalizeRef = useRef<Modalize>(null);
 
@@ -48,6 +74,10 @@ export default function TabOneScreen() {
       });
     })
   }, [])
+
+  if (networkStatus === NetworkStatus.refetch) return <Text>'Refetching!'</Text>;
+  if(loading) return null;
+  if(error) return <Text>{JSON.stringify(error)}</Text>;
 
   return (
     <View style={styles.container}>
@@ -72,13 +102,13 @@ export default function TabOneScreen() {
           </View>
       </View>
 
-      {loading ? 
-      <Text>Loading...</Text>
-      :
-      (
+      {/* {loading ?  */}
+      {/* <Text>Loading...</Text> */}
+      {/* :
+      ( */}
       <View>
         <ScrollView>
-          <Feed snippets={data.snippetsForUser} setModalToShow={setModalToShow}/>        
+          <Feed snippets={data?.snippetsForUser} setModalToShow={setModalToShow}/>        
         </ScrollView>    
 
         <View style={styles.modal}>
@@ -91,14 +121,14 @@ export default function TabOneScreen() {
                 {modalContent?.description}
               </Subheading>
               <DefaultText>
-                <HTML source={{ html: modalContent?.snippet }} />
+                <HTML source={{ html: modalContent?.snippet as string }} />
               </DefaultText>
               </View>
           </Modalize>
         </View>
       </View>
-      )
-      }
+      {/* )
+      } */}
       
     </View>
   );

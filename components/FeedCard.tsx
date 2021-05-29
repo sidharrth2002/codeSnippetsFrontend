@@ -5,6 +5,7 @@ import HTML from "react-native-render-html";
 import { pure } from 'recompose';
 
 interface FeedCardProps {
+    id: string,
     title: string,
     description: string
     snippet: string,
@@ -12,11 +13,12 @@ interface FeedCardProps {
     onPress: Function
 }
 
-const FeedCard = ({ title, description, snippet, comments, onPress }: FeedCardProps): JSX.Element => {
+const FeedCard = ({ id, title, description, snippet, comments, onPress }: FeedCardProps): JSX.Element => {
     return (
         <React.Fragment>
             <TouchableHighlight onPress={() => {
                 onPress({
+                    id: id,
                     title: title,
                     description: description,
                     snippet: snippet,
@@ -62,4 +64,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default pure(FeedCard);
+export default FeedCard;

@@ -48,7 +48,7 @@ export interface QuoteInterface {
 }
 
 export interface Snippets {
-  id: number;
+  id: string;
   title: string;
   description: string;
   snippet: string;
@@ -94,4 +94,8 @@ export interface AddSnippetData {
   description: string;
   snippet: string;
   userId: string;
+}
+
+export interface DeleteSnippetData {
+  id: string;
 }
