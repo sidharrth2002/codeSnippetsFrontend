@@ -99,3 +99,7 @@ export interface AddSnippetData {
 export interface DeleteSnippetData {
   id: string;
 }
+
+export interface DeleteSnippetResult {
+  deleteSnippet: boolean;
+}

@@ -1,6 +1,7 @@
 import React from 'react'
 import { View, StyleSheet, TouchableHighlight } from 'react-native'
 import { Text } from "react-native";
+import { Button } from 'react-native-paper';
 import HTML from "react-native-render-html";
 import { pure } from 'recompose';
 

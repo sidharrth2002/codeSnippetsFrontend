@@ -1,11 +1,11 @@
-import { useLazyQuery } from '@apollo/client';
+import { useLazyQuery, useMutation } from '@apollo/client';
 import React, { useEffect, useState } from 'react';
 import { Dimensions, StyleSheet } from 'react-native';
-import { Checkbox, Searchbar } from 'react-native-paper';
+import { Button, Checkbox, Searchbar } from 'react-native-paper';
 import { Text, View } from '../components/Themed';
-import { GET_SNIPPETS_BY_KEYWORD } from '../graphQLQueries';
+import { DELETE_SNIPPET, GET_SNIPPETS, GET_SNIPPETS_BY_KEYWORD } from '../graphQLQueries';
 import { Card, Title, Paragraph } from 'react-native-paper';
-import { Snippets, SnippetsSearchResults } from '../types';
+import { DeleteSnippetData, DeleteSnippetResult, Snippets, SnippetsSearchResults } from '../types';
 import HTML from 'react-native-render-html';
 import { ScrollView } from 'react-native-gesture-handler';
 
@@ -23,16 +23,41 @@ export default function TabTwoScreen() {
     GET_SNIPPETS_BY_KEYWORD,
   );
 
+  const [delSnippet] = useMutation<DeleteSnippetResult, DeleteSnippetData>(DELETE_SNIPPET);
+
+  const deleteSnippet = (id:string) => {
+    delSnippet({
+      variables: {
+        id: id
+      }, 
+      update: cache => {
+        const data = cache.readQuery({query: GET_SNIPPETS_BY_KEYWORD, variables: {
+          keyword: searchQuery
+        }}) as SnippetsSearchResults;
+        const newData = { ...data }
+        newData.snippetsByKeyword = newData.snippetsByKeyword.filter(snip => snip.id !== id);
+        cache.writeQuery({query: GET_SNIPPETS_BY_KEYWORD, data: newData, variables: {
+          keyword: searchQuery
+        }});
+        console.log('updated');
+      }
+    })
+    setSearchResults([]);
+  }
+
   //set the state based on data received
   useEffect(() => {
     if(data?.snippetsByKeyword == null || data?.snippetsByKeyword.length === 0) {
       setSearchResults([])
-    } else if(data?.snippetsByKeyword.length > 0) {
+    } else {
       console.log(data.snippetsByKeyword);
-      // if(sortAlph) {
-      //   data.snippetsByKeyword.sort((a, b) => a.title < b.title ? 1 : -1);        
-      // }
-      setSearchResults(data.snippetsByKeyword);
+      if(sortAlph) {
+        let newList = [...data.snippetsByKeyword];
+        newList.sort((a, b) => a.title < b.title ? 1 : -1);    
+        setSearchResults(newList);    
+      } else {
+        setSearchResults(data.snippetsByKeyword);
+      }
     }
   }, [data])
 
@@ -76,7 +101,7 @@ export default function TabTwoScreen() {
           <Text>Fetching from the server</Text>  
           :
             searchResults.map((snippet) => {
-              console.log(snippet.id);
+              console.log(snippet.title);
               return (
                 <View key={snippet.id} style={styles.cardParent}>
                   <Card style={styles.card}>
@@ -89,6 +114,7 @@ export default function TabTwoScreen() {
                           <HTML source={{ html: snippet?.snippet }} />
                       </View>
                     </Card.Content>
+                    <Button onPress={() => deleteSnippet(snippet.id)}>Delete</Button>
                   </Card>
                 </View> 
               )
